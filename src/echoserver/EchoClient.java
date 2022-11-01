@@ -1,9 +1,7 @@
 package echoserver;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.Socket;
+import java.io.*;
+import java.net.*;
 
 public class EchoClient {
 	public static final int PORT_NUMBER = 6013;
@@ -18,6 +16,24 @@ public class EchoClient {
 		InputStream socketInputStream = socket.getInputStream();
 		OutputStream socketOutputStream = socket.getOutputStream();
 
-		// Put your code here.
+		// Read from the keyboard
+		PrintWriter printWriter = new PrintWriter(socketOutputStream);
+		printWriter.println("Hello World!");
+		printWriter.flush();
+
+		socket.shutdownOutput();
+
+		// Read from the socket
+		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socketInputStream));
+		String line = null;
+		while ((line = bufferedReader.readLine()) != null) {
+			System.out.println(line);
+		}
+
+		bufferedReader.close();
+		socketInputStream.close();
+		printWriter.close();
+		socketOutputStream.close();
+		socket.close();
 	}
 }
