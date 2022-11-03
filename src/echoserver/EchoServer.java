@@ -12,13 +12,13 @@ public class EchoServer {
 	}
 
 	private void start() throws IOException, InterruptedException {
-		ServerSocket serverSocket = new ServerSocket(PORT_NUMBER);
+		try (ServerSocket serverSocket = new ServerSocket(PORT_NUMBER)) {
+			while (true) {
+				Socket socket = serverSocket.accept();
 
-		while (true) {
-			Socket socket = serverSocket.accept();
-
-			ServerThread serverThread = new ServerThread(socket);
-			serverThread.start();
+				ServerThread serverThread = new ServerThread(socket);
+				serverThread.start();
+			}
 		}
 	}
 }
