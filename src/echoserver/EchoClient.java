@@ -17,9 +17,10 @@ public class EchoClient {
 		OutputStream socketOutputStream = socket.getOutputStream();
 
 		// Read from the keyboard
-		PrintWriter printWriter = new PrintWriter(socketOutputStream);
-		printWriter.println("Hello World!");
-		printWriter.flush();
+		int inputByte;
+		while ((inputByte = System.in.read()) != -1) {
+		  socketOutputStream.write(inputByte);
+		}
 
 		socket.shutdownOutput();
 
@@ -32,7 +33,6 @@ public class EchoClient {
 
 		bufferedReader.close();
 		socketInputStream.close();
-		printWriter.close();
 		socketOutputStream.close();
 		socket.close();
 	}
