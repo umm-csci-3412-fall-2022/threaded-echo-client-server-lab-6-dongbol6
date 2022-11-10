@@ -11,6 +11,7 @@ public class EchoServer {
 		server.start();
 	}
 
+	// This method is called when the server is started
 	private void start() throws IOException, InterruptedException {
 		ServerSocket serverSocket = new ServerSocket(PORT_NUMBER);
 		
