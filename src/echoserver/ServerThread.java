@@ -24,9 +24,9 @@ public class ServerThread extends Thread {
             socketOutputStream = socket.getOutputStream();
             printWriter = new PrintWriter(socketOutputStream);
 
-            String line = null;
-            while ((line = bufferedReader.readLine()) != null) {
-                printWriter.println(line);
+            int inputByte;
+            while ((inputByte = bufferedReader.read()) != -1) {
+                printWriter.write(inputByte);
                 printWriter.flush();
             }
 
