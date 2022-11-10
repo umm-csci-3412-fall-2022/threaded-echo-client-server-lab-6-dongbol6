@@ -11,27 +11,25 @@ public class EchoClient {
 		client.start();
 	}
 
+	// This method is called when the client is started
 	private void start() throws IOException {
 		Socket socket = new Socket("localhost", PORT_NUMBER);
 		InputStream socketInputStream = socket.getInputStream();
 		OutputStream socketOutputStream = socket.getOutputStream();
 
-		// Read from the keyboard
+		// Read from the keyboard and send to the server
 		int inputByte;
 		while ((inputByte = System.in.read()) != -1) {
 		  socketOutputStream.write(inputByte);
 		}
 
-		socket.shutdownOutput();
 
 		// Read from the socket
-		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socketInputStream));
-		String line = null;
-		while ((line = bufferedReader.readLine()) != null) {
-			System.out.println(line);
-		}
+		socketOutputStream.flush();
+		socket.shutdownOutput();
+		System.out.write(socketInputStream.readAllBytes());
 
-		bufferedReader.close();
+		// Close the socket
 		socketInputStream.close();
 		socketOutputStream.close();
 		socket.close();
